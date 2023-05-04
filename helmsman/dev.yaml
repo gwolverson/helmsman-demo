@@ -1,0 +1,26 @@
+metadata:
+  maintainer: greg.wolverson@capgemini.com
+  description: Desired State File for the dev environment
+
+namespaces:
+  dev:
+
+apps:
+  service-a:
+    namespace: dev
+    enabled: true
+    chart: '../service-helm-chart'
+    version: 1.0.0
+    valuesFile: values/service-a/values-dev.yaml
+  service-b:
+    namespace: dev
+    enabled: true
+    chart: '../service-helm-chart'
+    version: 1.0.0
+    valuesFile: values/service-b/values-dev.yaml
+  mysql:
+    namespace: dev
+    enabled: true
+    chart: '../service-helm-chart'
+    version: 1.0.0
+    valuesFile: values/mysql/values-dev.yaml

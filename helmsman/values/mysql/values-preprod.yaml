@@ -1,0 +1,30 @@
+metadata:       
+  environment: preprod 
+  appName: mysql
+deployment:
+  create: true
+  replicas: 1
+  image: mysql:8.0.33
+  name: mysql
+  containerPort: 3306
+  env: 
+  - name: MYSQL_ROOT_PASSWORD
+    value: password
+  resources:
+    requests: 
+      memory: "750Mi"
+      cpu: "350m"
+    limits: 
+      memory: "800Mi"
+      cpu: "400m"
+
+networkPolicy:
+  create: true
+  podSelector:
+    matchLabels:
+      app: mysql
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: service-b

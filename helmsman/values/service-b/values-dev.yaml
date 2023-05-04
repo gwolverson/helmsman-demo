@@ -1,0 +1,30 @@
+metadata:       
+  environment: dev 
+  appName: service-b
+deployment:
+  create: true
+  replicas: 1
+  image: service:1.0.0
+  name: service-b
+  containerPort: 8080
+  resources:
+    requests: 
+      memory: "500Mi"
+      cpu: "350m"
+    limits: 
+      memory: "550Mi"
+      cpu: "400m"
+
+networkPolicy:
+  create: true
+  podSelector:
+    matchLabels:
+      app: service-b  
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: mysql
+    ports:
+    - port: 3306
+      protocol: TCP

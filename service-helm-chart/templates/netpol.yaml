@@ -1,0 +1,29 @@
+{{- if .Values.networkPolicy.create -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ printf "%s-network-policy" .Values.metadata.appName }}
+  namespace: {{ .Values.metadata.environment }}
+  labels:
+    app: {{ .Values.metadata.appName }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Values.metadata.appName }}
+  policyTypes:
+    {{- if or .Values.networkPolicy.ingress }}  
+    - Ingress
+    {{- end -}}
+    {{- if or .Values.networkPolicy.egress }}  
+    - Egress
+    {{- end -}}    
+  {{- if or .Values.networkPolicy.ingress }}
+  ingress:
+  {{- toYaml .Values.networkPolicy.ingress | nindent 2 }}
+  {{- end }}
+  {{- if or .Values.networkPolicy.egress }}
+  egress:
+  {{- toYaml .Values.networkPolicy.egress | nindent 2 }}
+  {{- end }}
+  {{- end }}

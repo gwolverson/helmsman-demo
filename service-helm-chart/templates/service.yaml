@@ -1,0 +1,22 @@
+{{- if .Values.service.create -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "%s-service" .Values.metadata.appName }}
+  namespace: {{ .Values.metadata.environment }}
+  labels:
+    app: {{ .Values.metadata.appName }}
+spec:
+  ports:
+    {{- range .Values.service.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      protocol: {{ default "TCP" .protocol }}
+      targetPort: {{ .targetPort }}  
+    {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.appName }}
+  type: {{ default "ClusterIP" .Values.service.type }}
+{{- end -}}

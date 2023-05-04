@@ -1,0 +1,9 @@
+metadata:       
+  environment: preprod 
+  appName: service-a
+deployment:
+  create: true
+  replicas: 1
+  image: service:1.0.0
+  name: service-a
+  containerPort: 8080

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: service
+version: 1.0.0
+kubeVersion: ">=1.22.0-0"
+description: Base helm chart for helmsman demo
+type: application
+maintainers:
+  - name: Greg Wolverson
+    email: greg.wolverson@capgemini.com    

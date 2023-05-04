@@ -1,0 +1,33 @@
+metadata:
+  environment: replace-me
+  appName: replace-me
+
+deployment:	
+  create: true
+  replicas: 1
+  name: replace-me
+  image: replace-me 
+  ports: 
+    - 8080
+  resources:
+    requests: 
+      memory: "250Mi"
+      cpu: "250m"
+    limits: 
+      memory: "350Mi"
+      cpu: "300m"
+
+networkPolicy:
+  create: true
+  podSelector:
+    matchLabels:
+      app: replace-me   
+  egress: {}
+  ingress: {}
+
+service:
+  create: false
+  ports: []
+  # - name: mysql
+  #   port: 3306
+  #   targetPort: 3306

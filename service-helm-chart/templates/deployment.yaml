@@ -1,0 +1,37 @@
+{{- if .Values.deployment.create }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.metadata.environment }}
+  labels:
+    app: {{ .Values.metadata.appName }}
+spec:
+  replicas: {{ default 1 .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.appName }}  
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.metadata.appName }}
+    spec:      
+      containers:
+      - name: {{ .Values.deployment.name }}
+        image: {{ .Values.deployment.image }}
+        imagePullPolicy: IfNotPresent
+        ports: 
+          - containerPort: {{ .Values.deployment.containerPort }}
+        resources:
+          requests: 
+            memory: {{ default "250Mi" .Values.deployment.resources.requests.memory }}
+            cpu: {{ default "250m" .Values.deployment.resources.requests.cpu }} 
+          limits: 
+            memory: {{ default "250Mi" .Values.deployment.resources.limits.memory }}
+            cpu: {{ default "250m" .Values.deployment.resources.limits.cpu }} 
+        {{- if .Values.deployment.env }}
+        env:
+        {{- toYaml .Values.deployment.env | nindent 8 -}}
+        {{- end -}}
+{{- end }}
